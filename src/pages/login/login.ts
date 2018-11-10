@@ -23,45 +23,31 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class LoginPage {
   user = {} as UserA;
-  constructor( private afauth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  myDate: Date;
+  message: string;
+  constructor(private afauth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
   }
-  async login(user: UserA){
-    try{
-      const result = this.afauth.auth.signInWithEmailAndPassword(user.email, user.password);
-      console.log(result);
-      if(result){
-        this.navCtrl.setRoot(HomePage);
-        
-        // this.fbase.list("/checkin").push(result);
-      }
-      else{
-        this.navCtrl.setRoot(LoginPage);
-      }
+  login(user: UserA) {
+    this.myDate = new Date();
+    console.log(this.myDate.toString().substring(0, 3));
+    if (this.myDate.toString().substring(0, 3) == 'Sat' || this.myDate.toString().substring(0, 3) == 'Sun') {
+      this.message='no login in weekends';
     }
-      catch(e){
+    else {
+      try {
+        this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
+          .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
+
+      }
+      catch (e) {
         console.error();
-        this.navCtrl.setRoot(LoginPage);
-        
+        this.message = "An error occured";
+      }
     }
   }
 
-  ionViewDidLoad() {
-    console.log('loaded');
-    this.afauth.authState.subscribe(data => {
-      if(data){
-        data = data;
-        this.navCtrl.setRoot(HomePage);
-      }
-      else{
-        // this.navCtrl.setRoot(LoginPage);
-      }
-    });
-    // return this.data;
-    
-  }
-
-  register(){
-    this.navCtrl.push(RegisterPage);
-  }
+register(){
+  this.navCtrl.push(RegisterPage);
+}
 
 }

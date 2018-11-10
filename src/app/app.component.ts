@@ -6,6 +6,7 @@ import { Config, Nav, Platform } from 'ionic-angular';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { Settings } from '../providers';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,19 @@ import { Settings } from '../providers';
 export class MyApp {
   rootPage:any = 'LoginPage';
 
-  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar) {
+  constructor(private afauth: AngularFireAuth, private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar) {
     platform.ready().then(() => {
       // this.statusBar.hide();
-      this.rootPage = LoginPage;
+      this.afauth.auth.onAuthStateChanged(user => {
+        if (user){
+          console.log("Logged in.");
+          this.rootPage = HomePage;
+        } else {
+          console.log("Not logged in.");
+          this.rootPage = LoginPage;
+        }
+      });
+      
     });
   }
 
