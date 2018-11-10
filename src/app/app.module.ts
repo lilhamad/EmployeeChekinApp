@@ -24,6 +24,7 @@ import { HomePageModule } from '../pages/home/home.module';
 import { LoginPageModule } from '../pages/login/login.module';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { TruncateModule } from 'ng2-truncate';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -59,6 +60,7 @@ export function provideSettings(storage: Storage) {
     AngularFireAuthModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     CommonModule,
+    TruncateModule ,
     AngularFireDatabaseModule,
     TranslateModule.forRoot({
       loader: {
