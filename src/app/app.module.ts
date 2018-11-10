@@ -22,6 +22,8 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { HomePageModule } from '../pages/home/home.module';
 import { LoginPageModule } from '../pages/login/login.module';
+import { EntryPageModule } from '../pages/entry/entry.module';
+import { EntryaddPageModule } from '../pages/entryadd/entryadd.module';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { TruncateModule } from 'ng2-truncate';
@@ -57,6 +59,8 @@ export function provideSettings(storage: Storage) {
     RegisterPageModule,
     LoginPageModule,
     HomePageModule,
+    EntryPageModule,
+    EntryaddPageModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     CommonModule,

@@ -30,10 +30,12 @@ export class LoginPage {
   login(user: UserA) {
     this.myDate = new Date();
     console.log(this.myDate.toString().substring(0, 3));
-    if (this.myDate.toString().substring(0, 3) == 'Sat' || this.myDate.toString().substring(0, 3) == 'Sun') {
-      this.message='no login in weekends';
+    if (this.myDate.toString().substring(0, 3) == 'Mon' || this.myDate.toString().substring(0, 3) == 'Sun') {
+      this.message='No ckeck in on weekends';
     }
     else {
+      if(user.email.length>6 && user.password.length>4)
+      {
       try {
         this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
           .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
@@ -43,6 +45,11 @@ export class LoginPage {
         console.error();
         this.message = "An error occured";
       }
+    }
+    else
+    {
+      this.message = "Invalid supply email length must be > 6 and password must be >4";
+    }
     }
   }
 

@@ -13,13 +13,16 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-item>
+        {{message}}
+      </ion-item>
   <ion-item> 
     <ion-label>Email</ion-label>
-    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+    <ion-input required type="text" [(ngModel)]="user.email"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>Password</ion-label>
-    <ion-input type="Password" [(ngModel)]="user.password"></ion-input>
+    <ion-input required type="Password" [(ngModel)]="user.password"></ion-input>
   </ion-item>
   <button ion-button (click) = "register(user)" color="light">Register</button>
 </ion-content>

@@ -1,5 +1,5 @@
 <!--
-  Generated template for the HomePage page.
+  Generated template for the EntryPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,26 +7,26 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Employee Home page : {{email}}</ion-title>
+    <ion-title>entry</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
   <ion-buttons end>
-    <button ion-button (click)="entry()">
-      Entry
+    <button ion-button icon-only (click)="addentry()">
+      <ion-icon name="add"></ion-icon>
     </button>
   </ion-buttons>
-  
+
   <ion-list>
-    <ion-item>
-      {{messagelastsignin}}
+    <ion-item>Entry records
     </ion-item>
-    <ion-item>Attendance record</ion-item>
-    <ion-item *ngFor="let item of checkindata">
-      {{ item.date | slice:0:22}}
+    <ion-item *ngFor="let item of entries">
+      {{ item.body}}
     </ion-item>
   </ion-list>
+
 </ion-content>
