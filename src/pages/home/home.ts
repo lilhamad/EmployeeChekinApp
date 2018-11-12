@@ -18,36 +18,32 @@ export class HomePage {
 
   checkindata: object[] = [];
   a;
+  date: Date;
   myDate: Date;
   lastlogindate: string;
   lastloginmonth: string;
   todaysdate: string;
   todaysmonth: string;
   checkin = {} as Checkin;
-  messagelastsignin:string;
-  lastsignin:string;
-  email:string;
+  messagelastsignin: string;
+  lastsignin: string;
+  email: string;
+  datauserid: string;
+  val: string;
+  checkedin: false;
+  // result: [];
   constructor(private afauth: AngularFireAuth, private fbase: AngularFireDatabase, private toast: ToastController, public navCtrl: NavController, public navParams: NavParams) {
 
   }
 
   ionViewDidLoad() {
 
-    this.afauth.auth.onAuthStateChanged(user => {
-      if (user) {
-        console.log(user);
-        console.log("Logged in.");
-      } else {
-        console.log("Not logged in.");
-        this.navCtrl.setRoot(LoginPage);
-      }
-    });
-    this.afauth.authState.subscribe(data => {
+    this.afauth.auth.onAuthStateChanged(data => {
       if (!data) {
         this.navCtrl.setRoot(LoginPage);
       }
       this.email = data.email;
-
+      this.datauserid = data.uid;
       console.log('last login on', data.metadata.lastSignInTime);
       this.myDate = new Date();
       this.lastsignin = data.metadata.lastSignInTime;
@@ -56,29 +52,40 @@ export class HomePage {
       this.todaysmonth = this.myDate.toString().substring(4, 7);
       this.todaysdate = this.myDate.toString().substring(8, 10);
       try {
-        if(this.lastlogindate==this.todaysdate && this.lastloginmonth==this.todaysmonth){
-          this.messagelastsignin = "You've checked in for today "+this.lastsignin;
-          // console.log("Checked in already");
+        if (this.lastlogindate == this.todaysdate && this.lastloginmonth == this.todaysmonth) {
+          this.messagelastsignin = "You've checked in for today " + this.lastsignin;
         }
-        else
-        {
-          this.checkin.date = data.metadata.lastSignInTime;
-          this.checkin.userid = data.uid;
-          this.fbase.list(`/chekin/${data.uid}`).push(this.checkin);
-        }
-        this.fbase.list(`/chekin/${data.uid}`).valueChanges().subscribe(data => {
-          this.checkindata = data;
-        });
       }
       catch (e) {
         console.error();
-        // this.navCtrl.setRoot(LoginPage);
       }
+      this.filterdata('');
     });
 
   }
 
-  entry(){
+  filterdata(ev) {
+    // var vel = ev.target.value;
+    this.fbase.list(`/chekin/${this.datauserid}`).valueChanges().subscribe(attendance => {
+      if (attendance.length >= 1) {
+        var result = attendance.filter(function (hero:Checkin) {
+
+          if (hero.date) {
+            // listresult.push(hero)
+            return new Date(hero.date).toDateString().toLowerCase().includes(ev.toLowerCase());
+          }
+        })
+        this.checkindata = result;
+      }
+      else { this.checkindata = []; }
+
+    });
+
+  }
+  async logout(): Promise<any> {
+    return this.afauth.auth.signOut();
+  }
+  entry() {
     this.navCtrl.push(EntryPage);
   }
 }

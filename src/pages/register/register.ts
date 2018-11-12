@@ -4,6 +4,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { UserA } from '../../app/user';
 import { LoginPage } from '../login/login';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the RegisterPage page.
@@ -18,29 +19,42 @@ import { LoginPage } from '../login/login';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
-  user = {} as UserA; 
-  message:string;
+  user = {} as UserA;
+  message: string;
 
   constructor(public navCtrl: NavController, private afauth: AngularFireAuth, public navParams: NavParams) {
   }
 
-  async register(user:UserA){
-    try{
-      if(user.email.length>6 && user.password.length>4)
-      {
-      const result = this.afauth.auth.createUserAndRetrieveDataWithEmailAndPassword(user.email, user.password);
-      console.log(result);
-      this.navCtrl.push(LoginPage);
+  async register(user: UserA) {
+    try {
+      if (user.email != null && user.password != null) {
+        if (user.email.length > 6 && user.password.length > 4) {
+          const result = this.afauth.auth.createUserAndRetrieveDataWithEmailAndPassword(user.email, user.password);
+          console.log(result);
+          try {
+            this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
+              .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
+
+          }
+          catch (e) {
+            console.error();
+            this.message = "An error occured";
+          }
+          // this.navCtrl.push(LoginPage);
+        }
+        else {
+          this.message = "Invalid supply email length must be > 6 and password must be >4";
+        }
+
       }
-      else
-    {
-      this.message = "Invalid supply email length must be > 6 and password must be >4";
+      else {
+        this.message = "Empty field not allowed";
+      }
     }
+    catch (e) {
+      console.error();
+
     }
-      catch(e){
-        console.error();
-        
-    }
-    }
+  }
 
 }

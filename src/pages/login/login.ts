@@ -27,30 +27,32 @@ export class LoginPage {
   message: string;
   constructor(private afauth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
   }
+
+
   login(user: UserA) {
     this.myDate = new Date();
     console.log(this.myDate.toString().substring(0, 3));
-    if (this.myDate.toString().substring(0, 3) == 'Mon' || this.myDate.toString().substring(0, 3) == 'Sun') {
-      this.message='No ckeck in on weekends';
+    if (this.myDate.toString().substring(0, 3) == 'Sat' || this.myDate.toString().substring(0, 3) == 'Sun') {
+      this.message = 'No ckeck in on weekends';
     }
-    else {
-      if(user.email.length>6 && user.password.length>4)
-      {
-      try {
-        this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
-          .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
-
-      }
-      catch (e) {
-        console.error();
-        this.message = "An error occured";
-      }
-    }
-    else
+    else 
     {
-      this.message = "Invalid supply email length must be > 6 and password must be >4";
+      if (user.email != null && user.password != null) {
+        try {
+          this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
+            .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
+
+        }
+        catch (e) {
+          console.error();
+          this.message = "An error occured";
+        }
+      }
+      else {
+        this.message = "Empty form not allowed";
+      }
     }
-    }
+
   }
 
 register(){

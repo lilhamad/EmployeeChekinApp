@@ -43,7 +43,7 @@ export class EntryaddPage {
       if (!data) {
         this.navCtrl.setRoot(LoginPage);
       }
-      if(entry1.body.length>1)
+      if(entry1.body != null)
       {
       this.entry.body = entry1.body;
       this.entry.userid = data.uid;

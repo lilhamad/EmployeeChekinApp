@@ -8,25 +8,35 @@
 
   <ion-navbar color="primary">
     <ion-title>Employee Home page : {{email}}</ion-title>
-  </ion-navbar>
+    <ion-buttons end>
 
+    <button ion-button (click)="logout()">
+      Log out
+    </button>
+  </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+  
   <ion-buttons end>
     <button ion-button (click)="entry()">
       Entry
     </button>
   </ion-buttons>
-  
-  <ion-list>
-    <ion-item>
-      {{messagelastsignin}}
+  <ion-item>
+      {{messagelastsignin | slice:0:50}}.
     </ion-item>
-    <ion-item>Attendance record</ion-item>
+  <ion-searchbar primary [(ngModel)]="value" (keyup)="filterdata(value)" show-cancel="true" placeholder="Search">
+  </ion-searchbar>
+  <ion-list>
+    
+    <ion-title>Attendance record</ion-title>
     <ion-item *ngFor="let item of checkindata">
-      {{ item.date | slice:0:22}}
+      {{ item.date | slice:0:15}}.
+      <!-- <p>{{ item.date | date:'ddmm/yyyy'}}</p> -->
+<p>{{ item.date | date:'hh:mm'}}</p>
     </ion-item>
   </ion-list>
 </ion-content>
