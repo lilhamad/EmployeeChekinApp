@@ -31,7 +31,7 @@ export class LoginPage {
       if (user.email != null && user.password != null) {
         try {
           this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
-            .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
+            .then(() => { this.message = "login in..."; this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
 
         }
         catch (e) {

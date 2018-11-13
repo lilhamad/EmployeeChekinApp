@@ -34,10 +34,11 @@ export class RegisterPage {
           if (new Date().toString().substring(0, 3) == 'Sat' || new Date().toString().substring(0, 3) == 'Sun') {
             this.message = 'No ckeck in on weekends';
           }
-          else {
+          else 
+          {
             try {
               this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
-                .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "login in..." });
+                .then(() => { this.message = "login in..."; this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "login in..."; });
             }
             catch (e) {
               console.error();
