@@ -25,6 +25,6 @@
     <ion-input required type="Password" [(ngModel)]="user.password"></ion-input>
   </ion-item>
 
-  <button ion-button (click)="login(user)">Login to ckeck in</button>
-  <button ion-button (click)="register()" color="light"> Register</button>
+  <button ion-button (click)="login(user)" [disabled]="buttonDisabled">Login to ckeck in</button>
+  <button ion-button (click)="register()" [disabled]="buttonDisabled" color="light"> Register</button>
 </ion-content>

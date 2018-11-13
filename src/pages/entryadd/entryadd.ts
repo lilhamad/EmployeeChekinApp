@@ -47,6 +47,7 @@ export class EntryaddPage {
       {
       this.entry.body = entry1.body;
       this.entry.userid = data.uid;
+      this.entry.date = new Date().toDateString();
       this.fbase.list(`/entry/${data.uid}`).push(this.entry);
       this.navCtrl.push(EntryPage);
       }

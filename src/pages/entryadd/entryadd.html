@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>entryadd</ion-title>
   </ion-navbar>
 
@@ -18,9 +18,8 @@
         {{message}}
       </ion-item>
     <ion-item>
-        <ion-label>Add entry</ion-label>
+        <ion-label>Type...</ion-label>
         <ion-textarea required [(ngModel)]="entry.body"></ion-textarea>
       </ion-item>
-      
       <button ion-button (click) = "add(entry)">Add entry</button>
 </ion-content>

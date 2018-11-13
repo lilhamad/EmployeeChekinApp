@@ -59,16 +59,22 @@ export class HomePage {
       catch (e) {
         console.error();
       }
-      this.filterdata('');
+      this.fbase.list(`/chekin/${this.datauserid}`).valueChanges().subscribe(attendance => {
+        if (attendance.length >= 1) {
+          this.checkindata = attendance;
+        }
+        else { this.checkindata = []; }
+
+      });
     });
 
   }
 
-  filterdata(ev) {
+  async filterdata(ev) {
     // var vel = ev.target.value;
     this.fbase.list(`/chekin/${this.datauserid}`).valueChanges().subscribe(attendance => {
       if (attendance.length >= 1) {
-        var result = attendance.filter(function (hero:Checkin) {
+        var result = attendance.filter(function (hero: Checkin) {
 
           if (hero.date) {
             // listresult.push(hero)

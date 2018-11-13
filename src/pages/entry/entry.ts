@@ -4,6 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { LoginPage } from '../login/login';
 import { EntryaddPage } from '../entryadd/entryadd';
+import { Entry } from '../../app/entry';
 
 /**
  * Generated class for the EntryPage page.
@@ -19,7 +20,7 @@ import { EntryaddPage } from '../entryadd/entryadd';
 })
 export class EntryPage {
   entries: object[] = [];
-
+  message:string;
   constructor(private afauth: AngularFireAuth, private fbase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -39,12 +40,27 @@ export class EntryPage {
       }
       this.fbase.list(`/entry/${data.uid}`).valueChanges().subscribe(data => {
         this.entries = data;
+        if(data.length<1){this.message="No entries yet!"}
       });
     });
+
   }
 
-  addentry(){
+  addentry() {
     this.navCtrl.push(EntryaddPage);
+  }
+
+  todaysentryonly() {
+    this.afauth.auth.onAuthStateChanged(user => {
+      this.fbase.list(`/entry/${user.uid}`).valueChanges().subscribe(entries => {
+          var result = entries.filter(function (hero: Entry) {
+            return new Date(hero.date).toDateString() == new Date().toDateString();
+          });
+          this.entries = result;
+          if(result.length<1){this.message="No entries for today press the '+Entry' to add one."}
+      });
+    });
+
   }
 
 }

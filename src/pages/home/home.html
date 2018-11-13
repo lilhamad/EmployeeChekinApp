@@ -28,12 +28,12 @@
   <ion-item>
       {{messagelastsignin | slice:0:50}}.
     </ion-item>
-  <ion-searchbar primary [(ngModel)]="value" (keyup)="filterdata(value)" show-cancel="true" placeholder="Search">
+  <ion-searchbar primary [(ngModel)]="value" (keyup)="filterdata(value)" show-cancel="true" placeholder="Filter by date">
   </ion-searchbar>
   <ion-list>
     
-    <ion-title>Attendance record</ion-title>
-    <ion-item *ngFor="let item of checkindata">
+    <ion-title>Attendance records.</ion-title>
+    <ion-item *ngFor="let item of checkindata .slice().reverse()">
       {{ item.date | slice:0:15}}.
       <!-- <p>{{ item.date | date:'ddmm/yyyy'}}</p> -->
 <p>{{ item.date | date:'hh:mm'}}</p>

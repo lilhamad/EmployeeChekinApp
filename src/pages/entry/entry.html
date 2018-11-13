@@ -1,13 +1,7 @@
-<!--
-  Generated template for the EntryPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>entry</ion-title>
+    <ion-title>Entry records</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,16 +10,22 @@
 <ion-content padding>
 
   <ion-buttons end>
+      <button ion-button (click)="todaysentryonly()">
+          Today's Entry Only
+        </button>
     <button ion-button icon-only (click)="addentry()">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="add"> Entry</ion-icon>
     </button>
   </ion-buttons>
 
   <ion-list>
-    <ion-item>Entry records
-    </ion-item>
-    <ion-item *ngFor="let item of entries">
+        <ion-title>Entry records.</ion-title>
+        <ion-item>
+            {{message}}
+          </ion-item>
+    <ion-item *ngFor="let item of entries.slice().reverse()">
       {{ item.body}}
+      <p>{{ item.date }}</p>
     </ion-item>
   </ion-list>
 

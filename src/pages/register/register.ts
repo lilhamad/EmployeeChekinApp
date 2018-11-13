@@ -31,14 +31,18 @@ export class RegisterPage {
         if (user.email.length > 6 && user.password.length > 4) {
           const result = this.afauth.auth.createUserAndRetrieveDataWithEmailAndPassword(user.email, user.password);
           console.log(result);
-          try {
-            this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
-              .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "Invalid login" });
-
+          if (new Date().toString().substring(0, 3) == 'Sat' || new Date().toString().substring(0, 3) == 'Sun') {
+            this.message = 'No ckeck in on weekends';
           }
-          catch (e) {
-            console.error();
-            this.message = "An error occured";
+          else {
+            try {
+              this.afauth.auth.signInWithEmailAndPassword(user.email, user.password)
+                .then(() => { this.navCtrl.setRoot(HomePage) }).catch((error) => { this.message = "login in..." });
+            }
+            catch (e) {
+              console.error();
+              this.message = "An error occured";
+            }
           }
           // this.navCtrl.push(LoginPage);
         }
