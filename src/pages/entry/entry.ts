@@ -21,6 +21,7 @@ import { Entry } from '../../app/entry';
 export class EntryPage {
   entries: object[] = [];
   message:string;
+  disableButton;
   constructor(private afauth: AngularFireAuth, private fbase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -40,6 +41,20 @@ export class EntryPage {
       }
       this.fbase.list(`/entry/${data.uid}`).valueChanges().subscribe(data => {
         this.entries = data;
+        var result = data.filter(function (hero:Entry) {
+          if (hero) {
+            console.log(hero);
+            if (hero.hasOwnProperty("date")) {
+              if (hero.date) {
+                return new Date(hero.date).toDateString() == new Date().toDateString();
+              }
+            } 
+          }
+        });
+        console.log('result', result);
+        if (result.length > 0) {
+          this.disableButton = true;
+        }
         if(data.length<1){this.message="No entries yet!"}
       });
     });

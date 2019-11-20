@@ -13,7 +13,7 @@
       <button ion-button (click)="todaysentryonly()">
           Today's Entry Only
         </button>
-    <button ion-button icon-only (click)="addentry()">
+    <button ion-button icon-only (click)="addentry()" [disabled]="disableButton">
       <ion-icon name="add"> Entry</ion-icon>
     </button>
   </ion-buttons>
